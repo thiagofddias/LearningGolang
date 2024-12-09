@@ -1,45 +1,24 @@
 package main
 
 import (
+	"ex1/model"
 	"fmt"
-	"golangEstudos/model"
+	"time"
 )
 
-// func main() {
-// 	fmt.Println("Hello, World!")
-
-// 	endereco := model.Endereco{
-// 		Rua:    "Rua 1",
-// 		Numero: 123,
-// 		Cidade: "Cidade 1",
-// 	}
-
-// 	pessoa := model.Pessoa{
-// 		Nome:       "Dias",
-// 		Endereco:   endereco,
-// 		Nascimento: time.Date(2002, 10, 24, 0, 0, 0, 0, time.Local),
-// 	}
-
-// 	fmt.Println(pessoa)
-// 	fmt.Println(endereco)
-
-// 	pessoa.CalculaIdade()
-
-// 	fmt.Println(pessoa.Idade)
-// }
-
 func main() {
-	fmt.Println("Hello, World!")
+	var nomeItens []string
+	nomeItens = append(nomeItens, "Arroz")
+	nomeItens = append(nomeItens, "Feijao")
+	nomeItens = append(nomeItens, "Macarrao")
+	nomeItens = append(nomeItens, "Coca Cola")
 
-	automovelMoto := model.Automovel{
-		Ano:    2013,
-		Placa:  "AXS-9F80",
-		Modelo: "Ninja 300",
-	}
-	moto := model.Moto{
-		Automovel:   automovelMoto,
-		Cilindradas: 300,
-	}
+	compra, err := model.NovaCompra("Mercado do João", time.Now(), nomeItens)
 
-	fmt.Println(moto)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	} else {
+		fmt.Println(compra)
+	}
 }
