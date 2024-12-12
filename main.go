@@ -2,44 +2,36 @@ package main
 
 import (
 	"fmt"
-	"os"
+	"sync"
+	"time"
 )
 
-func ReadFile() {
-	_, err := os.Open("test.txt")
-	if err != nil {
-		panic("Erro ao abrir o arquivo")
-	}
-}
-
 func main() {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Recuperado com sucesso")
-		}
-	}()
+	var wg sync.WaitGroup
 
-	ReadFile()
+	wg.Add(3)
 
-	defer fmt.Println("Finalizando a manipulacao do arquivo")
+	callDatabase(&wg)
+	callAPI(&wg)
+	processInternal(&wg)
+
+	time.Sleep(3 * time.Second)
 }
 
-// func ShowText() {
-// 	fmt.Println("Finalizando a manipualacao do arquivo")
-// }
+func callDatabase(wg *sync.WaitGroup) {
+	time.Sleep(1 * time.Second)
+	fmt.Println("finalizado callDatabase")
+	wg.Done()
+}
 
-// func main() {
-// 	file, err := os.Create("test.txt")
-// 	defer file.Close()
-// 	defer ShowText()
+func callAPI(wg *sync.WaitGroup) {
+	time.Sleep(2 * time.Second)
+	fmt.Println("finalizado callAPI")
+	wg.Done()
+}
 
-// 	if err != nil {
-// 		panic(err)
-// 	}
-
-// 	_, err = file.Write([]byte("Teste"))
-
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// }
+func processInternal(wg *sync.WaitGroup) {
+	time.Sleep(1 * time.Second)
+	fmt.Println("finalizado processInternal")
+	wg.Done()
+}
