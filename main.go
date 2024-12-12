@@ -1,24 +1,45 @@
 package main
 
 import (
-	"ex1/model"
 	"fmt"
-	"time"
+	"os"
 )
 
-func main() {
-	var nomeItens []string
-	nomeItens = append(nomeItens, "Arroz")
-	nomeItens = append(nomeItens, "Feijao")
-	nomeItens = append(nomeItens, "Macarrao")
-	nomeItens = append(nomeItens, "Coca Cola")
-
-	compra, err := model.NovaCompra("Mercado do João", time.Now(), nomeItens)
-
+func ReadFile() {
+	_, err := os.Open("test.txt")
 	if err != nil {
-		fmt.Println(err.Error())
-		return
-	} else {
-		fmt.Println(compra)
+		panic("Erro ao abrir o arquivo")
 	}
 }
+
+func main() {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Recuperado com sucesso")
+		}
+	}()
+
+	ReadFile()
+
+	defer fmt.Println("Finalizando a manipulacao do arquivo")
+}
+
+// func ShowText() {
+// 	fmt.Println("Finalizando a manipualacao do arquivo")
+// }
+
+// func main() {
+// 	file, err := os.Create("test.txt")
+// 	defer file.Close()
+// 	defer ShowText()
+
+// 	if err != nil {
+// 		panic(err)
+// 	}
+
+// 	_, err = file.Write([]byte("Teste"))
+
+// 	if err != nil {
+// 		panic(err)
+// 	}
+// }
