@@ -7,31 +7,18 @@ import (
 )
 
 func main() {
-	var wg sync.WaitGroup
+	var m sync.Mutex
+	i := 0
 
-	wg.Add(3)
+	for x := 0; x < 10000; x++ {
+		go func() {
+			m.Lock()
+			i++
+			m.Unlock()
+		}()
+	}
 
-	callDatabase(&wg)
-	callAPI(&wg)
-	processInternal(&wg)
+	time.Sleep(time.Second * 5)
+	fmt.Println(i)
 
-	time.Sleep(3 * time.Second)
-}
-
-func callDatabase(wg *sync.WaitGroup) {
-	time.Sleep(1 * time.Second)
-	fmt.Println("finalizado callDatabase")
-	wg.Done()
-}
-
-func callAPI(wg *sync.WaitGroup) {
-	time.Sleep(2 * time.Second)
-	fmt.Println("finalizado callAPI")
-	wg.Done()
-}
-
-func processInternal(wg *sync.WaitGroup) {
-	time.Sleep(1 * time.Second)
-	fmt.Println("finalizado processInternal")
-	wg.Done()
 }
